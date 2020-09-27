@@ -6,11 +6,38 @@ require_once('rabbitMQLib.inc');
 # require_once('login.php.inc');
 
 function doLogin($username,$password)
-{
-    return true;	
     # $login = new loginDB();
     # return $login->validateLogin($username,$password);
     //return false if not valid
+{
+    $login = new mysqli("localhost", " ", " ");
+    $name = $_post['search];
+    
+    $select = mysqli_select_db("login_db", $connect);
+    
+    $userName = $_POST['username'];
+    $password = $_POST['password']'
+                   
+    $sql = "SELECT * FROM users WHERE username='$userName' and password = '$password'";
+                   $result = mysqli_query($sql);
+                   $count = mysqli_num_rows($result);
+                   
+                   echo $sql;
+                   
+    if ($count==1){
+            echo 'You have successfully logged in.';
+               return true;
+    } else {
+        echo 'Failed to login.';
+    }
+                   
+    if (mysqli_connect_errno())
+                   {
+                       echo"Failed to connect to MySql: " . mysqli_connect_error();
+                       return false;
+                   }
+                   
+
 }
 
 function requestProcessor($request)
