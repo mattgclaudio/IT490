@@ -8,3 +8,8 @@ It does not appear that the .conf and .monit files are being used, and it does n
 9/25 14:52
 
 Server needs host.ini to run, excluded this at first.
+
+
+9/27 3:07AM: Wrote loginScript.php as well as created unifiedServer.php. The function in loginScript.php is passed the credentials which are sent from Apache2, these are sent through rabbit to the DB, which checks the credentials and returns true or false based on whether they were a match. 
+
+unifiedServer.php is just changed to reflect using the loginScript.php, which has to be stored in another dir with its own rabbit.ini file. So long as the request from apache is of type login, the doLogin($un, $pwn) method will be called, passed the credentials, and shoot them to the DB for checking. 
