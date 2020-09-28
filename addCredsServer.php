@@ -11,7 +11,8 @@ function doLogin($username,$password)
     //return false if not valid
 {
     $login = new mysqli("localhost", " ", " ");
-    $name = $_post['search];
+    $name = $_post['search'];
+    # Comment: does post need to be capitalized here? added ending quote mark. 
     
     $select = mysqli_select_db("login_db", $connect);
     
