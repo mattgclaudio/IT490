@@ -43,12 +43,10 @@ function requestProcessor($request)
   switch ($request['type'])
   {
     case "login":
-      $pass = callDB($request['username'],$request['password']);	    
+	    $pass = callDB($request['username'],$request['password']);	    
 
-    case "validate_session":
-      return doValidate($request['sessionId']);
   }
-  return array("returnCode" => '0', 'message'=>$pass);
+  return array("returnCode" => '0', 'message'=>$pass['response']);
 }
 
 $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
