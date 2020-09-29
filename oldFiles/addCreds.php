@@ -16,7 +16,7 @@ else
 }
 
 $request = array();
-$request['type'] = "Login";
+$request['type'] = "login";
 $request['username'] = $a;
 $request['password'] = $b;
 $request['message'] = $msg;
@@ -26,7 +26,7 @@ $response = $client->send_request($request);
 #echo "client received response: ".PHP_EOL;
 #print_r($response);
 #echo "\n\n";
-return $response;
+return $response['response'];
 #echo $argv[0]." END".PHP_EOL;
 }
 

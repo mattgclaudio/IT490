@@ -3,7 +3,7 @@ session_start();
 #This line has to be run before anything else for the session vars to work
 
 # this line will have to be changed based on where the RabbitCLIENT file is in relation to the login.php
-require('/home/matt00/Downloads/git/clnRab/rabbitmqphp_example/ServerClient.php');
+require('addCreds.php');
 
 # this is still stock
 if (!isset($_POST))
@@ -48,10 +48,8 @@ $lucky = doItAll($un, $pw);
 
 <table>
 
-<!--Need to make this top text box larger for the error message, probably best to do it in CSS -->
-
 <tr><td><input type="text" value="<?php echo $lucky;  ?>"></td></tr> 
-<tr><td><input type="text" value="<?php echo "Thank you for logging in"; ?>"></td></tr>
+<tr><td><input type="text" value="<?php echo "jamba Juice"; ?>"></td></tr>
 
 </table>
 
