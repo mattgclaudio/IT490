@@ -1,0 +1,36 @@
+
+
+
+Start:
+
+webServer VM {
+
+login.html -> enter credentials
+
+login.php -> credentials are pulled out of POST and passed to ServerClient.php, which just has to be stored in a directory with the ini and other config files, i store it in a clean copy of the professors rabbit repo and adjust the include line in login.php (stored in var/www/html/stockTracker(on my machine)) to point down to that directory.
+
+ServerClient has the doItAll($a, $b) function which runs the client code to reach out to the RabbitMQ broker VM. username and password passed as args are sent in the client request array.
+
+}
+
+RabbitMQ Broker VM {
+
+switchingServer.php does all the work of running the server code to listen for 
+the WebServer's request, as well as sending the client request to the DBServer 
+with the credentials from the web page.
+
+the callDB() function in switchingServer.php does all the work of reaching out to the DB Server, 
+and it returns the $response from the DB Rabbit server. the request processor then pulls out just 
+the response message i.e. success or failure and passes that as the 'message' var in the array 
+which is sent on the return path to the webpage.
+
+}
+
+DB Server VM {
+
+
+dbserver.php does the work here, a RabbitMQ Server script which waits for the RabbitMQ VM to 
+reach out with the credentials in a login request. Function chkcreds($userone, $passone) runs
+the sqli query and returns a message based on whether a user was found with those credentials in the DB. 
+Message is populated in the return array under 'response' and sent back to RabbitMQ VM.
+
