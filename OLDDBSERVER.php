@@ -20,17 +20,8 @@ function chkcreds($userone, $passone)
     if ($retrow = $mysqli->query("SELECT * FROM vault.users WHERE username='$userone' and password = '$passone'")) {
 
 
-	    $count = $retrow->num_rows;
-	    $retrow->close;
-	  
-	    if ($count == 1) {
-		    $ret = "success, logged in!";
-	    }
-
-	    else {
-	    
-	    $ret = "failure, no user found with those credentials";
-	    }
+            $retrow->close();
+            $ret = "success, logged in!";
     }
 
     return $ret;
