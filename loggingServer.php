@@ -6,7 +6,7 @@ require_once('rabbitMQLib.inc');
 
 # checks if logs are equivalent, if not it rewrites the log file with the new one. 
 # it works, i hope, because if a server reports an error it apends it to the existing 
-# shared log file. that is sent to the log server which updates its # log file to match,
+# shared log file. that is sent to the log server which updates its log file to match,
 # and when it responds to the original server theirs will not match.
 # When the other machines check in, loggingServer pushes the new log  
 # file to them, they dont match, and the clients overwrite their file with the new contents. 
