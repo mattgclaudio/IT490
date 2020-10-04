@@ -4,20 +4,27 @@ require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
-# checks if logs are equivalent, if not it rewrites the log file with the new one. 
-# it works, i hope, because if a server reports an error it apends it to the existing 
-# shared log file. that is sent to the log server which updates its log file to match,
-# and when it responds to the original server theirs will not match.
-# When the other machines check in, loggingServer pushes the new log  
-# file to them, they dont match, and the clients overwrite their file with the new contents. 
+
+
+function getLog() {
+
+	$jar = file_get_contents("/home/matt/logbook.txt");
+	return $jar;
+
+}
+
+
+# rewritten to only overwrite rabbit log if the one sent to it is longer than the one it has. 
+# we could probably also pull out the last line and compare those? we will have to make sure that all the logs
+# are being appended ina  consistent fashion or gauging them by length will not work. 
 
 function checkLog($sentlog) {
 
         
-        $ourlog = file_get_contents("home/matt/logbook.txt");
-        $oursha = sha1($ourlog);
-        $sentsha = sha1($sentlog);
-	if ($oursha != $sentsha):
+        $ourlog = getLog();
+        $ourlen = strlen($ourlog);
+        $sentsha = strlen($sentlog);
+	if ($oursha < $sentsha):
 		# here we are overwriting the logbook with the new updated log 
 		# from one of the VM's
                 $scribe = fopen("/home/matt/logbook.txt", "w")  or die("Error opening logbook.txt");
@@ -29,12 +36,6 @@ function checkLog($sentlog) {
 }
 
 
-function getLog() {
-
-	$jar = file_get_contents("/home/matt/logbook.txt");
-	return $jar;
-
-}
 
 
 
@@ -43,6 +44,8 @@ function getLog() {
 # will always be connected if we can't sort out how to end the connections correctly.
 
 
+# just waits for the clients, then will overwrite if theirs has a new entry, do nothing if not. send rabbits master log as 
+# the $response var in both cases. 
 function requestProcessor($request)
 {
   echo "Ready to receive VM logs".PHP_EOL;
