@@ -28,20 +28,11 @@ function getLog() {
 
 }
 
-function checkLog($rablog) {
-
-	#  use php sha1_file to check equivalence.
-	#  %$&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-	# IF THIS IS RUNNING ON YOUR VM YOU MUST CHANGE THE HOME DIRECTORY
-	# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	$ourlog = getLog();
-	$oursha = sha1($ourlog);
-	$rabsha = sha1($rablog);
-	if ($oursha != $rabsha):
-		$scribe = fopen("/home/matt/logbook.txt", "w")  or die("Error opening logbook.txt");
-		fwrite($scribe, $rablog);
-		fclose($scribe);
-	
+function changeLog($rablog) {
+	# here we are OVERWRITING the existing log with the new one from the server. 
+	$newentry = fopen("/home/matt/logbook.txt", "w");
+	fwrite($newentry, $rablog);
+	fclose($newentry);
 
 }
 
@@ -56,7 +47,7 @@ $response = $client->send_request($request);
 
 
 echo "client received response: ".PHP_EOL;
-checkLog($response['update']);
+changeLog($response['update']);
 echo "\n\n";
 
 echo $argv[0]." END".PHP_EOL;
