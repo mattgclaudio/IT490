@@ -50,11 +50,8 @@ $client = new rabbitMQClient("logging_server.ini","loggingServer");
 
 
 $request = array();
-
 $request['type'] = "log_update";
-
 $request['log_update'] = getLog();
-
 $response = $client->send_request($request);
 
 
