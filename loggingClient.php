@@ -57,6 +57,7 @@ $response = $client->send_request($request);
 
 
 echo "client received response: ".PHP_EOL;
+echo $response['update'];
 checkLog($response['update']);
 echo "\n\n";
 
