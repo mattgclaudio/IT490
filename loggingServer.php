@@ -5,14 +5,26 @@ require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
 
-# checks if logs are equivalent, if not it rewrites the log file with the new o# ne. it works, i hope, because if a server reports an error it apends it to th# e existing shared log file. that is sent to the log server which updates its # log file to match, and when it responds to the original server theirs will no# w match. When the other machines check in, loggingServer pushes the new log  # file to them, they dont match, and the clients overwrite their file with the  # new contents. 
+
+function getLog() {
+
+	$jar = file_get_contents("/home/matt/logbook.txt");
+	return $jar;
+
+}
+
+
+# rewritten to only overwrite rabbit log if the one sent to it is longer than the one it has. 
+# we could probably also pull out the last line and compare those? we will have to make sure that all the logs
+# are being appended ina  consistent fashion or gauging them by length will not work. 
+
 function checkLog($sentlog) {
 
         
-        $ourlog = file_get_contents("home/matt/logbook.txt");
-        $oursha = sha1($ourlog);
-        $sentsha = sha1($sentlog);
-	if ($oursha != $sentsha):
+        $ourlog = getLog();
+        $ourlen = strlen($ourlog);
+        $sentsha = strlen($sentlog);
+	if ($oursha < $sentsha):
 		# here we are overwriting the logbook with the new updated log 
 		# from one of the VM's
                 $scribe = fopen("/home/matt/logbook.txt", "w")  or die("Error opening logbook.txt");
@@ -27,9 +39,13 @@ function checkLog($sentlog) {
 
 
 
-#  what this will do is run rabbitlogserver run continually, and the individual#  VM's will do a cron job which occasionally makes a rabbitclient to report er# rors/they will always be connected if we can't sort out how to end the 
-#  connections correctly. 
+#  what this will do is run rabbitlogserver run continually, and the individual
+#  VM's will do a cron job which occasionally makes a rabbitclient to report errors/they
+# will always be connected if we can't sort out how to end the connections correctly.
 
+
+# just waits for the clients, then will overwrite if theirs has a new entry, do nothing if not. send rabbits master log as 
+# the $response var in both cases. 
 function requestProcessor($request)
 {
   echo "Ready to receive VM logs".PHP_EOL;
@@ -40,9 +56,9 @@ function requestProcessor($request)
 	  	checkLog($request['log_update']);
  
   }
+ 
 
-
-  $current_log = file_get_contents("/home/matt/logbook.txt");
+  $current_log = getLog();
   
   return array("returnCode" => '0', 'update'=>$current_log);
 }
@@ -56,6 +72,6 @@ $server->process_requests('requestProcessor');
 
 echo "Logging Server END".PHP_EOL;
 
-exit();
+exit(0);
 
 ?>
