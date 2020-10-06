@@ -6,14 +6,25 @@ require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
 
+function updateLog($errmsg) {
+	# with this a+ opening mode we APPEND to this existing logbook
+	$newentry = fopen("/home/matt/logbook.txt", "a+");
+	fwrite($newentry, $errmsg);
+	fclose($newentry);
+
+}
+
+
 function chkcreds($userone, $passone)
 {
     $ret = "error";
     $mysqli = new mysqli('localhost', 'testdb', 'data', 'vault');
 
     if ($mysqli->connect_errno) {
-            $ret = "failed to connect to DB";
-
+	    $ret = "Error from DB: failed to authenticate to DB";
+	    $ret .= date("H:i:s");
+	    updateLog($ret);
+	    
     }
 
 
