@@ -23,15 +23,15 @@ function checkLog($sentlog) {
         
         $ourlog = getLog();
         $ourlen = strlen($ourlog);
-        $sentsha = strlen($sentlog);
-	if ($oursha < $sentsha):
+        $sentlen = strlen($sentlog);
+	if ($ourlen < $sentlen) {
 		# here we are overwriting the logbook with the new updated log 
 		# from one of the VM's
                 $scribe = fopen("/home/matt/logbook.txt", "w")  or die("Error opening logbook.txt");
                 fwrite($scribe, $sentlog);
 		fclose($scribe);
-		return true;
 
+			}
 
 }
 
