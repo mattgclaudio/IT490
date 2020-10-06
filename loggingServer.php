@@ -18,6 +18,17 @@ function getLog() {
 # we could probably also pull out the last line and compare those? we will have to make sure that all the logs
 # are being appended ina  consistent fashion or gauging them by length will not work. 
 
+
+function updateLog($errmsg) {
+	# with this a+ opening mode we APPEND to this existing logbook
+	$newentry = fopen("/home/matt/logbook.txt", "a+");
+	fwrite($newentry, $errmsg);
+	fwrite($newentry, "\n");
+	fclose($newentry);
+
+}
+
+
 function checkLog($sentlog) {
 
         
