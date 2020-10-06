@@ -15,7 +15,7 @@ require_once('rabbitMQLib.inc');
 
 function updateLog($errmsg) {
 	# with this a+ opening mode we APPEND to this existing logbook
-	$newentry = fopen("/home/matt/logbook.txt", "a+");
+	$newentry = fopen("/home/matt00/logbook.txt", "a+");
 	fwrite($newentry, $errmsg);
 	fwrite($newentry, "\n");
 	fclose($newentry);
@@ -24,7 +24,7 @@ function updateLog($errmsg) {
 
 function getLog() {
 
-	$jar = file_get_contents("/home/matt/logbook.txt");
+	$jar = file_get_contents("/home/matt00/logbook.txt");
 	return $jar;
 
 }
@@ -38,7 +38,7 @@ function checkLog($sentlog) {
 	if ($ourlen < $sentlen) {
 		# here we are overwriting the logbook with the new updated log 
 		# from one of the VM's
-                $scribe = fopen("/home/matt/logbook.txt", "w")  or die("Error opening logbook.txt");
+                $scribe = fopen("/home/matt00/logbook.txt", "w")  or die("Error opening logbook.txt");
                 fwrite($scribe, $sentlog);
 		fclose($scribe);
 
