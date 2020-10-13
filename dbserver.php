@@ -17,13 +17,14 @@ function updateLog($errmsg) {
 
 function chkcreds($userone, $passone)
 {
-    $ret = "error";
+    $ret = "error, not logged in.";
     $mysqli = new mysqli('localhost', 'testdb', 'data', 'vault');
 
     if ($mysqli->connect_errno) {
-	    $ret = "Error from DB: failed to authenticate to DB";
-	    $ret .= date("H:i:s");
-	    updateLog($ret);
+	    $ret0 = "Error from DB: failed to connect to DB      ";
+	    $ret0 .= date("H:i:s");
+	    $ret0 .= "\n";
+	    updateLog($ret0);
 	    
     }
 
@@ -40,7 +41,10 @@ function chkcreds($userone, $passone)
 
 	    else {
 	    
-	    $ret = "failure, no user found with those credentials";
+		    $ret1 = "failure, no user found with those credentials";
+		    $ret1 .=  date("H:i:s");
+		    updateLog($ret1);
+		    	    
 	    }
     }
 
