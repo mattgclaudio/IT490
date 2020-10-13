@@ -1,6 +1,6 @@
 #!/usr/bin/php
+
 <?php
-session_start();
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
@@ -33,14 +33,6 @@ function chkcreds($userone, $passone)
 
 
 	    $count = $retrow->num_rows;
-
-	    if ($r = $retrow->fetch_assoc()){
-                        $_SESSION['pubkey'] = $r['publickey'];
-                        $_SESSION['privkey'] = $r['privatekey'];
-                        # updateLog($SESSION['pubkey']);
-            }
-
-	   	   
 	    $retrow->close;
 	  
 	    if ($count == 1) {
@@ -77,7 +69,7 @@ function requestProcessor($request)
     case "login":
       $retString =  chkcreds($request['username'],$request['password']);	   
   }
-  return array("returnCode" => '0',  'response' => $retString, 'pubkey' => $_SESSION['pubkey'], 'privkey' => $_SESSION['privkey']);
+  return array("returnCode" => '0',  'response' => $retString);
 }
 
 $server = new rabbitMQServer("db_server.ini","dbServer");
