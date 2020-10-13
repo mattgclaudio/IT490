@@ -1,5 +1,6 @@
 #!/usr/bin/php
 <?php
+session_start();
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
@@ -18,10 +19,12 @@ else
 }
 
 $request = array();
+
 $request['type'] = "login";
 $request['username'] = $unthree;
 $request['password'] = $pwthree;
 $request['message'] = $msg;
+
 $response = $client->send_request($request);
 
 return $response;
@@ -46,12 +49,12 @@ function requestProcessor($request)
 	    $pass = callDB($request['username'],$request['password']);	    
 
   }
-  return array("returnCode" => '0', 'message'=>$pass['response']);
+  return array("returnCode" => '0', 'message'=>$pass['response'], 'pubkey' => $pass['pubkey'], 'privkey' => $pass['privkey']);
 }
 
 $server = new rabbitMQServer("testRabbitMQ.ini","testServer");
 
-echo "Server With apache2 BEGIN".PHP_EOL;
+echo "Switching Server BEGIN".PHP_EOL;
 
 $server->process_requests('requestProcessor');
 
