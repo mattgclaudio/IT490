@@ -1,39 +1,16 @@
 <html>
+
 <head>
-	<title> YahooFin Portal </title>
+
+<title> YahooFin Portal </title>
+
 <link rel="stylesheet" href="stylesheet0.css">
+
 </head>
 
-<script>
-
-function HandleLoginResponse(response)
-{
-	var text = JSON.parse(response);
-//	document.getElementById("textResponse").innerHTML = response+"<p>";	
-	document.getElementById("textResponse").innerHTML = "response: "+text+"<p>";
-}
-
-function SendLoginRequest()
-{
-	var un = document.getElementById("uname").innerHTML
-	var pw = document.getElementById("pword").innerHTML
-	var request = new XMLHttpRequest();
-	request.open("POST","login.php",true);
-	request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	request.onreadystatechange= function ()
-	{
-		
-		if ((this.readyState == 4)&&(this.status == 200))
-		{
-			HandleLoginResponse(this.responseText);
-		}		
-	}
-	request.send("uname="+un+"&pword="+pw);
-}
-</script>
-
-<h1>Login Page</h1>
 <body>
+<h1>Login Page</h1>
+
 
 	
 <div id="textResponse">

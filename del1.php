@@ -6,27 +6,17 @@ session_start();
 require('/home/matt00/Downloads/git/WebRabbitConn/ServerClient.php');
 
 
+# This is the del1.py file
+
 
 # Var for what post returned
 $request=$_POST;
 
 
-if(isset($_POST['cashButton'])) {
-
-	$retcash = doDelOne("cash");
-
-
-}
-
 
 # call function in the RabbitCLIENT file which passes the data to Rabbit to be # passed to the DB etc.
 #
-$lucky = doItAll($un, $pw);
-$arg1 = $lucky['pubkey'];
-$arg2 = $lucky['privkey'];
 
-$_SESSION['pubkey'] = $arg1;
-$_SESSION['privkey'] = $arg2;
 
 
 ?>
@@ -57,11 +47,7 @@ $_SESSION['privkey'] = $arg2;
 <tr><td><input type="text" value="<?php echo $arg1;  ?>"></td></tr> 
 <tr><td><input type="text" value="<?php echo $arg2; ?>"></td></tr>
 
-<form method="post" action="">
-	<label> Cash Button </label>
-	<input type="submit" name="cashButton" />
-
-</form>
+<button>Get Cash Balance </button>
 
 </table>
 
