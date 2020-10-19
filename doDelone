@@ -1,0 +1,14 @@
+function doDelOne($action) {
+
+	$client = new rabbitMQClient("dmzServer.ini", "dmzServer");
+	
+	$req = array();
+	
+	$req['action'] = $action;
+	
+	$resp = $client->send_request($req);
+	
+	return $resp;	
+
+
+}
