@@ -6,41 +6,21 @@ require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
 
 
-function callDB($unthree, $pwthree) {
+function callDB($input) {
 
-$client = new rabbitMQClient("db_server.ini","dbServer");
+	$client = new rabbitMQClient("db_server.ini","dbServer");
 
+	return $client->send_request($input);
 
-$request = array();
-
-$request['type'] = "login";
-$request['username'] = $unthree;
-$request['password'] = $pwthree;
+	}
 
 
-$response = $client->send_request($request);
-
-$_SESSION['pubkey'] = $response['pubkey'];
-$_SESSION['privkey'] = $response['privkey'];
-
-return $response;
-}
-
-
-function callDMZ($pkey, $prkey, $action) {
+function callDMZ($input) {
 
         $client = new rabbitMQClient("dmzServer.ini","dmzServer");
 
-        $request = array();
-        $request['action'] =  $action;
-        $request['pubkey'] = $pkey;
-        $request['privkey'] = $prkey;
-
-        $response = $client->send_request($request);
-
-        return $response;
-
-}
+        return $client->send_request($input);
+	}
 
 
 function requestProcessor($request)
@@ -54,15 +34,14 @@ function requestProcessor($request)
 
   switch ($request['type'])
   {
-  	case "dmz1":
-		$retmsg = callDMZ($_SESSION['pubkey'], $_SESSION['privkey'], $request['action']);
-
+ 
   	case "login":
-		$retmsg = callDB($request['username'],$request['password']);
-  		$retmsg = $retmsg['response'];		
-
-  }
-  return array("returnCode" => '0', 'message'=>$retmsg);
+		return callDB($request);
+		break;
+	case "dmz":
+		return callDMZ($request);
+		break;
+   }
 }
 
 $server = new rabbitMQServer("webconn.ini","testServer");
