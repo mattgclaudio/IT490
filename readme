@@ -1,3 +1,6 @@
+
+ 10/19/20 
+ 
  apache2.conf goes in /etc/apache2/
 stockTracker.conf is linked in etc/apache2/sites-enabled/ from its spot in sites-available
 
@@ -5,3 +8,7 @@ get_host_info.inc, host.ini, local.ini, path.inc, rabbitMqlib.inc, ServerClient.
 
 login.php, index.html, stylesheet all go in /var/www/html/[directory consistent with config files] 
 
+
+
+10/20/20
+added action.php last night, first step of letting the user get data through the DMZ
