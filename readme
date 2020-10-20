@@ -1,0 +1,7 @@
+ apache2.conf goes in /etc/apache2/
+stockTracker.conf is linked in etc/apache2/sites-enabled/ from its spot in sites-available
+
+get_host_info.inc, host.ini, local.ini, path.inc, rabbitMqlib.inc, ServerClient.php, and rabbit.ini all go in a directory for reaching out to the rabbitmq Server with user requests
+
+login.php, index.html, stylesheet all go in /var/www/html/[directory consistent with config files] 
+
