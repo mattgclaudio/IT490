@@ -1,6 +1,6 @@
 #!/usr/bin/php
+
 <?php
-session_start();
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
@@ -17,12 +17,7 @@ function updateLog($errmsg) {
 
 function chkcreds($userone, $passone)
 {
- 
-
-    $ret = array();
-    $ret['msg'] = "error, not logged in.";
-    
-
+    $ret = "error, not logged in.";
     $mysqli = new mysqli('localhost', 'testdb', 'data', 'vault');
 
     if ($mysqli->connect_errno) {
@@ -38,18 +33,10 @@ function chkcreds($userone, $passone)
 
 
 	    $count = $retrow->num_rows;
-
-	    if ($r = $retrow->fetch_assoc()){
-                        $ret['pubkey'] = $r['publickey'];
-                        $ret['privkey'] = $r['privatekey'];
-                        # updateLog();
-            }
-
-	   	   
-	    
+	    $retrow->close;
 	  
 	    if ($count == 1) {
-		    $ret['msg'] = "success, logged in!";
+		    $ret = "success, logged in!";
 	    }
 
 	    else {
@@ -80,9 +67,9 @@ function requestProcessor($request)
   switch ($request['type'])
   {
     case "login":
-      $retCreds =  chkcreds($request['username'],$request['password']);	   
+      $retString =  chkcreds($request['username'],$request['password']);	   
   }
-  return array("returnCode" => '0',  'msg' => $retCreds['msg'], 'pubkey'=>$retCreds['pubkey'] ?? '', 'privkey'=>$retCreds['privkey'] ?? '');
+  return array("returnCode" => '0',  'response' => $retString);
 }
 
 $server = new rabbitMQServer("db_server.ini","dbServer");
