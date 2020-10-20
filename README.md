@@ -13,3 +13,7 @@ Server needs host.ini to run, excluded this at first.
 9/28 3:07AM: Wrote loginScript.php as well as created unifiedServer.php. The function in loginScript.php is passed the credentials which are sent from Apache2, these are sent through rabbit to the DB, which checks the credentials and returns true or false based on whether they were a match. 
 
 unifiedServer.php is just changed to reflect using the loginScript.php, which has to be stored in another dir with its own rabbit.ini file. So long as the request from apache is of type login, the doLogin($un, $pwn) method will be called, passed the credentials, and shoot them to the DB for checking. 
+
+10/20
+
+Right now the RabbitMQ Broker VM Works with switchingserver.php, dmzServer.ini, dbServer.ini, webconn.ini, as well as the usual host path .inc etc files for the rabbit server to run. This coordinates messages between all 3 of the VM's Rabbit being the 4th. 
