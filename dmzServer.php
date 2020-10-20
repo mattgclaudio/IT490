@@ -3,7 +3,7 @@
 require_once('path.inc');
 require_once('get_host_info.inc');
 require_once('rabbitMQLib.inc');
-require_once('/home/matt/git/loggingModule/loggingClient.php');
+
 
 
 
@@ -13,12 +13,12 @@ function requestProcessor($request)
   var_dump($request);
   $pubkey = $request['pubkey'];
   $privkey = $request['privkey'];
-
+  $op = "error in processing";
   switch ($request['action']) {
 
 		# this was my hacky way of getting php to pass the variables
 	# correctly when its moved to a shell command (python)
-	case 'cash': 
+	case "cash": 
 		$start = '/home/matt/git/DMZ/IT490/Deliverable_1_script_1.py ';
 		$start .= $pubkey;
 	        $start .= ' ' . $privkey;	
@@ -37,7 +37,7 @@ function requestProcessor($request)
 	
 	default:
 		$emsg = "no valid action for user account given";
-		updateLog($emsg);
+	
 		$op = "error in processing";
 
 }
